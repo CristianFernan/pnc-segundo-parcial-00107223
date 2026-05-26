@@ -4,6 +4,7 @@ package com.uca.pncsegundoparcialgestiontareas.services;
 import com.uca.pncsegundoparcialgestiontareas.dto.request.TaskDTORequest;
 import com.uca.pncsegundoparcialgestiontareas.dto.response.TaskDTOResponse;
 import com.uca.pncsegundoparcialgestiontareas.entities.Task;
+import com.uca.pncsegundoparcialgestiontareas.exceptions.TaskNotFound;
 import com.uca.pncsegundoparcialgestiontareas.repository.TaskRepository;
 import com.uca.pncsegundoparcialgestiontareas.utils.TaskMapper;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class TaskService {
 
     public TaskDTOResponse findTaskById(long id){
         return TaskMapper.toResponse(taskRepository.findById(id).orElseThrow(
-                () -> new PokemonNotFound("Pokemon not found with id " + id)
+                () -> new TaskNotFound("Task not found with id " + id)
         ));
     }
 
@@ -45,7 +46,7 @@ public class TaskService {
         if (taskRepository.existsById(id)){
             taskToUpdate.setId(id);
         }else{
-            throw new PokemonNotFound("Pokemon not found with id " + id);
+            throw new TaskNotFound("Task not found with id " + id);
         }
         taskRepository.save(taskToUpdate);
     }
